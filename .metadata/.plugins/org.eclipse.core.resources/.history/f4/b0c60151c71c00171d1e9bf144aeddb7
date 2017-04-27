@@ -1,0 +1,5 @@
+package com.wpc.action;
+
+public class SaveProductAction {
+
+}

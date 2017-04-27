@@ -1,0 +1,11 @@
+package com.wpc.jstldemo;
+
+public class Book {
+	
+	private String isbn;
+	private String title;
+	private String price;
+	
+	
+
+}

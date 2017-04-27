@@ -1,0 +1,63 @@
+package com.wpc.NIODemo;
+
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.nio.ByteBuffer;
+import java.nio.channels.FileChannel;
+
+public class Buffer {
+
+	public static void nioCopyFile(String resource, String destination) {
+		FileInputStream fileInputStream = null;
+		FileOutputStream fileOutputStream = null;
+
+		try {
+			fileInputStream = new FileInputStream(new File(resource));
+			fileOutputStream = new FileOutputStream(new File(destination));
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+
+		FileChannel readChannel = fileInputStream.getChannel();
+		FileChannel writeChannel = fileOutputStream.getChannel();
+		ByteBuffer byteBuffer = ByteBuffer.allocate(1024);
+
+		while (true) {
+			byteBuffer.clear();
+			int len = -1;
+
+			try {
+				len = readChannel.read(byteBuffer);
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+
+			if (len == -1) {
+				break;
+			}
+
+			try {
+				writeChannel.write(byteBuffer);
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+
+		}
+
+		try {
+			readChannel.close();
+			writeChannel.close();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+
+	}
+	
+	public static void main(String[] args) {
+		nioCopyFile("D:\\in.pdf", "D:\\out.pdf");
+		System.out.println("-----------");
+	}
+
+}

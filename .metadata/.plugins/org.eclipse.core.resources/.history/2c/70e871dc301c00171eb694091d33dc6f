@@ -1,0 +1,7 @@
+package com.wpc.jstldemo;
+
+import javax.servlet.http.HttpServlet;
+
+public class BigCitiesServlet extends HttpServlet{
+
+}

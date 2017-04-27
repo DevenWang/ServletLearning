@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<session version="1.0">
+<refactoring comment="Copy 2 elements to &apos;WebContent&apos;&#x0D;&#x0A;- Original project: &apos;FilterDispatcherModel2&apos;&#x0D;&#x0A;- Destination element: &apos;WebContent&apos;&#x0D;&#x0A;- Original elements:&#x0D;&#x0A;     JSP&#x0D;&#x0A;     CSS" description="Copy folders" element1="WebContent/JSP" element2="WebContent/CSS" files="0" flags="589830" folders="2" id="org.eclipse.jdt.ui.copy" policy="org.eclipse.jdt.ui.copyResources" stamp="1491714096929" target="/DAO/WebContent" units="0" version="1.0"/>
+</session>

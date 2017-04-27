@@ -1,0 +1,81 @@
+package com.wpc.filter;
+
+import java.io.IOException;
+
+import javax.servlet.Filter;
+import javax.servlet.FilterChain;
+import javax.servlet.FilterConfig;
+import javax.servlet.RequestDispatcher;
+import javax.servlet.ServletException;
+import javax.servlet.ServletRequest;
+import javax.servlet.ServletResponse;
+import javax.servlet.annotation.WebFilter;
+import javax.servlet.http.HttpServletRequest;
+
+import com.wpc.action.SaveProductAction;
+import com.wpc.form.ProductForm;
+import com.wpc.model.Product;
+
+@WebFilter(filterName = "DispatcherFilter", urlPatterns = { "/*" })
+public class DispatcherFilter implements Filter {
+
+	@Override
+	public void init(FilterConfig filterConfig) throws ServletException {
+
+	}
+
+	@Override
+	public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain)
+			throws IOException, ServletException {
+
+		HttpServletRequest httpServletRequest = (HttpServletRequest) request;
+
+		String uri = httpServletRequest.getRequestURI();
+		int indext = uri.lastIndexOf("/");
+		String action = uri.substring(indext + 1);
+
+		if (action.equals("product_input")) {
+
+		} else if (action.equals("product_save")) {
+
+			ProductForm productForm = new ProductForm();
+			productForm.setProductName(request.getParameter("productName"));
+			productForm.setDescription(request.getParameter("description"));
+			productForm.setPrice(request.getParameter("price"));
+
+			Product product = new Product();
+			product.setProductName(productForm.getProductName());
+			product.setDescription(productForm.getDescription());
+			try {
+				product.setPrice(Double.parseDouble(productForm.getPrice()));
+			} catch (NumberFormatException e) {
+			}
+
+			SaveProductAction saveProductAction = new SaveProductAction();
+			saveProductAction.save(product);
+
+			request.setAttribute("product", product);
+
+		}
+
+		String dispatchUrl = null;
+		if (action.equals("product_input")) {
+			dispatchUrl = "/JSP/ProductForm.jsp";
+		} else if (action.equals("product_save")) {
+			dispatchUrl = "/JSP/ProductDetails.jsp";
+		}
+		if (dispatchUrl != null) {
+			RequestDispatcher dispatcher = request.getRequestDispatcher(dispatchUrl);
+			dispatcher.forward(request, response);
+		} else {
+			chain.doFilter(request, response);
+		}
+
+	}
+
+	@Override
+	public void destroy() {
+
+	}
+
+}

@@ -1,0 +1,11 @@
+package com.wpc.servlet;
+
+import javax.servlet.annotation.WebServlet;
+import javax.servlet.http.HttpServlet;
+
+@WebServlet(name = "ControllerServlet", urlPatterns = { "/product_input", "/product_save" })
+public class ControllerServlet extends HttpServlet {
+
+	private static final long serialVersionUID = 12345678L;
+
+}

@@ -1,0 +1,10 @@
+@CHARSET "UTF-8";
+
+#global {
+	text-align: left;
+	border: 1px solid #dedede;
+	background: #efefef;
+	width: 300px;
+	padding: 20px;
+	margin: 100px auto;
+}

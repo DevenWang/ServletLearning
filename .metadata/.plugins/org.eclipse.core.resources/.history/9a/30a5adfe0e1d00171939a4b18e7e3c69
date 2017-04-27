@@ -1,0 +1,69 @@
+package com.wpc.servlet;
+
+import java.io.IOException;
+import java.util.LinkedHashSet;
+
+import javax.servlet.RequestDispatcher;
+import javax.servlet.ServletException;
+import javax.servlet.annotation.MultipartConfig;
+import javax.servlet.annotation.WebServlet;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.Part;
+
+@WebServlet(name = "SingleUploadServlet", urlPatterns = { "/singleUpload" })
+@MultipartConfig
+public class SingleUploadServlet extends HttpServlet {
+
+	private static final long serialVersionUID = 1L;
+
+	@Override
+	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+
+		req.setCharacterEncoding("utf-8");
+		resp.setCharacterEncoding("utf-8");
+		RequestDispatcher dispatcher = req.getRequestDispatcher("/jsp/singleUpload.jsp");
+		dispatcher.forward(req, resp);
+	}
+
+	@Override
+	protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+
+		req.setCharacterEncoding("utf-8");
+		resp.setCharacterEncoding("utf-8");
+
+		Part part = req.getPart("fileName");
+		String fileName = getFileName(part);
+		if (fileName != null && !fileName.isEmpty()) {
+			part.write(getServletContext().getRealPath("/WEB-INF") + "/" + fileName);
+			System.out.println(getServletContext().getRealPath("/WEB-INF") + fileName);
+		}
+		req.setAttribute("fileName", fileName);
+		req.setAttribute("size", part.getSize());
+		req.setAttribute("author", req.getParameter("author"));
+		RequestDispatcher dispatcher = req.getRequestDispatcher("/jsp/successUpload.jsp");
+		dispatcher.forward(req, resp);
+	}
+
+	public String getFileName(Part part) {
+
+		LinkedHashSet<String> headerNames = (LinkedHashSet) part.getHeaderNames();
+		for (String string : headerNames) {
+			System.out.println(string);
+		}
+
+		String contentDispositionHeader = part.getHeader("content-disposition");
+		System.out.println("contentDispositionHeader: " + contentDispositionHeader);
+		String[] elements = contentDispositionHeader.split(";");
+
+		for (String element : elements) {
+			if (element.trim().startsWith("filename")) {
+				return element.substring(element.indexOf('=') + 1).trim().replace("\"", "");
+			}
+		}
+
+		return null;
+	}
+
+}

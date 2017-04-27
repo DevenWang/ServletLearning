@@ -1,0 +1,5 @@
+package com.wpc.validator;
+
+public class ProductValidator {
+
+}

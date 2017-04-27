@@ -1,0 +1,11 @@
+package com.wpc.NIODemo;
+
+import java.io.FileInputStream;
+
+public class Buffer {
+	
+	public static void nioCopyFile(String resource,String destination){
+		FileInputStream fileInputStream = null;
+	}
+
+}

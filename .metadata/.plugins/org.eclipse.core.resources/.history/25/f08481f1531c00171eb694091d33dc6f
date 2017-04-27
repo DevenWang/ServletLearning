@@ -1,0 +1,5 @@
+package com.wpc.filterdemo;
+
+public class LoggingFilter {
+
+}
